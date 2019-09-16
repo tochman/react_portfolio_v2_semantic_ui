@@ -1,5 +1,7 @@
 const path = require("path")
 const webpack = require("webpack")
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 
 module.exports = {
   entry: "./src/index.js",
@@ -28,7 +30,19 @@ module.exports = {
     contentBase: path.join(__dirname, "/"),
     port: 3000,
     publicPath: "http://localhost:3000/dist/",
-    watchContentBase: true
+    watchContentBase: true,
+    historyApiFallback: true,
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          mangle: {
+            keep_fnames: true,
+          },
+        },
+      })
+    ],
   },
   plugins: [new webpack.HotModuleReplacementPlugin()]
 }
